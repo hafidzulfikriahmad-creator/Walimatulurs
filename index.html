@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>The Wedding Of Dhifa & Hafidz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Patrick+Hand&family=Amiri:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F5EEDD;
+    --paper2:#ECE1C6;
+    --ink:#4A3C2E;
+    --ink-soft:#6B5D4B;
+    --rose:#C97B6E;
+    --sage:#8CA07C;
+    --mustard:#DFA83E;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Patrick Hand', cursive;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  body::before{
+    content:""; position:fixed; inset:0; pointer-events:none; z-index:1;
+    background-image: radial-gradient(rgba(74,60,46,0.5) 0.6px, transparent 0.6px);
+    background-size:5px 5px; opacity:0.035;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
+  }
+  h1,h2,h3,.display{ font-family:'Caveat', cursive; font-weight:700; color:var(--ink); }
+  .eyebrow{ font-family:'Patrick Hand', cursive; letter-spacing:0.08em; text-transform:uppercase; font-size:0.78rem; color:var(--rose); }
+  .arabic{ font-family:'Amiri', serif; }
+  a{ color:inherit; }
+  img{ max-width:100%; display:block; }
+
+  .reveal{ opacity:0; transform:translateY(20px) rotate(0.3deg); transition:opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.in{ opacity:1; transform:translateY(0) rotate(0); }
+
+  .warm{ filter: sepia(0.18) saturate(1.12) contrast(1.02) brightness(1.01); }
+
+  /* ---- Blob hand-drawn photo frame ---- */
+  .blob{
+    border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+    border:3px solid var(--rose);
+    overflow:hidden; position:relative;
+    transform: rotate(-2deg);
+  }
+  .blob::after{
+    content:""; position:absolute; inset:-7px;
+    border:2px solid var(--sage);
+    border-radius: 225px 15px 255px 15px / 15px 255px 15px 225px;
+    transform: rotate(3deg); opacity:0.55; z-index:-1; pointer-events:none;
+  }
+  .blob.tilt-r{ transform:rotate(2.5deg); }
+  .blob img{ width:100%; height:100%; object-fit:cover; }
+
+  /* ---- Doodle divider ---- */
+  .doodle-wave{ margin:26px auto; display:block; }
+  .doodle-heart{ margin:0 auto 10px; display:block; }
+
+  section{ padding:88px 22px; max-width:600px; margin:0 auto; text-align:center; position:relative; z-index:2; }
+  .section-title{ font-size:0.85rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--sage); margin-bottom:4px; font-family:'Patrick Hand', cursive; }
+
+  /* ---- Cover ---- */
+  #cover{
+    position:fixed; inset:0; z-index:50;
+    display:flex; align-items:center; justify-content:center;
+    background:var(--paper);
+    overflow:hidden;
+    transition: transform 1s cubic-bezier(.76,0,.24,1);
+  }
+  #cover.opened{ transform:translateY(-100%); pointer-events:none; }
+  .cover-frame{
+    position:absolute; inset:20px;
+    border:2.5px dashed var(--rose);
+    border-radius:24px;
+    pointer-events:none;
+  }
+  .cover-content{ position:relative; z-index:2; text-align:center; color:var(--ink); padding:32px; max-width:400px; }
+  .cover-content .eyebrow{ color:var(--rose); }
+  .cover-content h1{ color:var(--ink); font-size:3rem; margin:10px 0 4px; line-height:1; }
+  .cover-content .amp{ display:inline-block; color:var(--mustard); font-size:1.6rem; margin:0 6px; }
+  .cover-date{
+    font-family:'Patrick Hand', cursive; color:var(--ink); font-size:1rem;
+    display:inline-block; margin:8px auto 22px; padding:6px 18px;
+    border:2px solid var(--mustard); border-radius:50% / 60%;
+    transform:rotate(-2deg);
+  }
+  .cover-msg{ font-size:1.02rem; line-height:1.85; color:var(--ink-soft); margin-bottom:22px; }
+  .guest-box{ border-top:2px dashed var(--sage); border-bottom:2px dashed var(--sage); padding:14px 8px; margin-bottom:24px; }
+  .guest-box .to-label{ font-size:0.78rem; letter-spacing:0.06em; color:var(--sage); text-transform:uppercase; margin-bottom:6px;}
+  .guest-box .to-name{ font-family:'Caveat', cursive; font-weight:600; font-size:1.7rem; color:var(--ink); }
+
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    background:var(--rose); border:none; color:var(--paper);
+    font-family:'Patrick Hand', cursive; letter-spacing:0.03em;
+    font-size:0.92rem; padding:13px 28px; border-radius:50px; cursor:pointer;
+    box-shadow:2px 3px 0 var(--ink);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .btn:hover{ transform:translate(1px,1px); box-shadow:1px 2px 0 var(--ink); }
+  .btn:focus-visible{ outline:2px solid var(--ink); outline-offset:3px; }
+  .btn:active{ transform:translate(2px,3px); box-shadow:0 0 0 var(--ink); }
+  .btn-outline{ background:transparent; color:var(--sage); border:2px solid var(--sage); box-shadow:2px 3px 0 var(--sage); }
+  .btn-outline:hover{ background:var(--sage); color:var(--paper); }
+
+  /* ---- Music widget ---- */
+  #musicWidget{
+    position:fixed; bottom:18px; right:18px; z-index:40;
+    background:var(--ink); border:2px solid var(--mustard); border-radius:40px;
+    padding:8px 16px 8px 8px; display:flex; align-items:center; gap:10px;
+    box-shadow:2px 3px 0 var(--rose); cursor:pointer;
+  }
+  .vinyl{ width:32px; height:32px; border-radius:50%;
+    background: repeating-radial-gradient(circle, #2A2118 0px, #2A2118 2px, #362A1E 3px, #362A1E 4px);
+    display:flex; align-items:center; justify-content:center; animation: spin 6s linear infinite; }
+  .vinyl .label{ width:11px; height:11px; border-radius:50%; background:var(--mustard); }
+  .vinyl.paused{ animation-play-state:paused; }
+  @keyframes spin{ from{transform:rotate(0)} to{transform:rotate(360deg)} }
+  #musicWidget .eq{ display:flex; align-items:flex-end; gap:2px; height:13px; }
+  #musicWidget .eq span{ width:3px; background:var(--mustard); animation: eq 0.9s ease-in-out infinite; }
+  #musicWidget .eq span:nth-child(2){ animation-delay:0.2s; }
+  #musicWidget .eq span:nth-child(3){ animation-delay:0.4s; }
+  #musicWidget.paused .eq span{ animation-play-state:paused; height:3px !important; }
+  @keyframes eq{ 0%,100%{height:4px;} 50%{height:13px;} }
+  #musicWidget .info{ font-family:'Patrick Hand', cursive; font-size:0.62rem; color:var(--paper2); line-height:1.4; text-align:left; }
+  #musicWidget .info b{ color:var(--mustard); font-size:0.72rem; display:block; }
+
+  /* ---- Hero ---- */
+  #hero{ padding-top:96px; max-width:560px; }
+  .hero-portraits{ display:flex; align-items:center; justify-content:center; gap:16px; margin-bottom:20px; }
+  .blob-sm{ width:108px; height:132px; }
+  #hero h1{ font-size:2.6rem; line-height:1.15; margin-top:6px; }
+  #hero .quote{ margin-top:20px; font-family:'Caveat', cursive; font-size:1.5rem; color:var(--sage); max-width:420px; margin-left:auto; margin-right:auto; }
+
+  /* ---- Ayat ---- */
+  #ayat{ background:var(--paper2); max-width:100%; padding:88px 22px;}
+  #ayat .arabic-text{ font-size:1.5rem; line-height:2.3; color:var(--ink); max-width:580px; margin:0 auto 22px; direction:rtl; }
+  #ayat .translation{ font-size:1rem; line-height:1.9; color:var(--ink-soft); max-width:420px; margin:0 auto 14px; }
+  #ayat .surah{ color:var(--rose); font-family:'Caveat', cursive; font-weight:600; letter-spacing:0.02em; font-size:1.1rem; }
+
+  /* ---- Mempelai ---- */
+  .couple-grid{ display:grid; grid-template-columns:1fr; gap:48px; margin-top:32px; }
+  @media (min-width:680px){ .couple-grid{ grid-template-columns:1fr 1fr; } }
+  .couple-card .blob-big{ width:160px; height:196px; margin:0 auto 18px; }
+  .couple-card h3{ font-size:1.7rem; }
+  .couple-card .nick{ font-family:'Patrick Hand', cursive; color:var(--rose); font-size:0.95rem; margin:2px 0 10px; }
+  .couple-card .parents{ font-size:0.96rem; line-height:1.8; color:var(--ink-soft); }
+
+  /* ---- Cerita ---- */
+  .timeline{ margin-top:32px; text-align:left; max-width:460px; margin-left:auto; margin-right:auto; }
+  .tl-item{ position:relative; padding-left:34px; padding-bottom:46px; }
+  .tl-item:last-child{ padding-bottom:0; }
+  .tl-item::before{ content:""; position:absolute; left:0; top:5px; width:13px; height:13px; border-radius:50%; border:2px solid var(--rose); background:var(--paper); }
+  .tl-item::after{ content:""; position:absolute; left:6px; top:22px; bottom:-14px; width:2px; background-image:repeating-linear-gradient(180deg, var(--sage) 0 5px, transparent 5px 10px); }
+  .tl-item:last-child::after{ display:none; }
+  .tl-item h3{ font-size:1.35rem; margin-bottom:6px; }
+  .tl-item p{ font-size:0.98rem; line-height:1.85; color:var(--ink-soft); }
+
+  /* ---- Acara ---- */
+  .event-grid{ display:grid; gap:22px; margin-top:32px; }
+  @media (min-width:680px){ .event-grid{ grid-template-columns:1fr 1fr; } }
+  .event-card{
+    background:var(--paper); border:2.5px dashed var(--sage); border-radius:18px;
+    padding:30px 22px; position:relative;
+  }
+  .event-card .day{ font-size:0.78rem; letter-spacing:0.06em; color:var(--sage); text-transform:uppercase; margin-bottom:2px;}
+  .event-card h3{ font-size:1.6rem; margin:4px 0 6px;}
+  .event-card .date{ font-size:0.98rem; margin-bottom:8px; color:var(--ink-soft); }
+  .event-card .time{ font-family:'Caveat', cursive; font-weight:700; font-size:1.8rem; color:var(--rose); margin-bottom:6px; }
+  .event-card .venue{ font-size:0.94rem; color:var(--ink-soft); line-height:1.7; margin-bottom:14px; }
+
+  /* ---- Countdown ---- */
+  #countdown{ background:var(--sage); color:var(--paper); max-width:100%; padding:74px 22px;}
+  .cd-grid{ display:flex; justify-content:center; gap:12px; margin-top:26px; flex-wrap:wrap;}
+  .cd-box{ background:var(--ink); border-radius:14px; width:74px; padding:16px 0 12px; transform:rotate(-1.5deg); }
+  .cd-box:nth-child(2){ transform:rotate(1deg); }
+  .cd-box:nth-child(3){ transform:rotate(-1deg); }
+  .cd-box:nth-child(4){ transform:rotate(1.5deg); }
+  .cd-box .num{ font-family:'Caveat', cursive; font-weight:700; font-size:2rem; color:var(--mustard); }
+  .cd-box .lbl{ font-family:'Patrick Hand', cursive; font-size:0.62rem; letter-spacing:0.06em; text-transform:uppercase; color:#D9CBAE; margin-top:2px;}
+
+  /* ---- Galeri ---- */
+  .gallery-row{ display:flex; justify-content:center; gap:20px; margin-top:34px; flex-wrap:wrap; }
+  .gallery-row .blob{ width:126px; height:154px; }
+  .gallery-row .blob:nth-child(2){ transform:rotate(2deg); }
+  .gallery-row .blob:nth-child(3){ transform:rotate(-1.5deg); }
+  .gallery-hint{ margin-top:20px; font-family:'Caveat', cursive; font-size:1.2rem; color:var(--ink-soft); }
+
+  /* ---- RSVP ---- */
+  #rsvp{ background:var(--paper2); max-width:100%; padding:84px 22px; }
+
+  /* ---- Amplop Digital ---- */
+  #amplop{ max-width:600px; padding-top:80px; }
+  .bank-card{
+    max-width:360px; margin:30px auto 0;
+    background:var(--paper); border:2.5px dashed var(--mustard); border-radius:18px;
+    padding:28px 24px; transform:rotate(-1deg);
+  }
+  .bank-card .bank-name{ font-family:'Caveat', cursive; font-weight:700; font-size:1.6rem; color:var(--rose); }
+  .bank-card .acc-number{ font-family:'Patrick Hand', cursive; font-size:1.5rem; letter-spacing:0.06em; color:var(--ink); margin:10px 0 6px; }
+  .bank-card .acc-name{ font-size:0.96rem; color:var(--ink-soft); margin-bottom:16px; }
+  .copy-btn{
+    display:inline-flex; align-items:center; gap:6px;
+    background:transparent; border:2px solid var(--sage); color:var(--sage);
+    font-family:'Patrick Hand', cursive; font-size:0.88rem; padding:9px 20px;
+    border-radius:50px; cursor:pointer; transition:all 0.2s ease;
+  }
+  .copy-btn:hover{ background:var(--sage); color:var(--paper); }
+  .copy-btn.copied{ background:var(--sage); color:var(--paper); }
+  form{ max-width:440px; margin:30px auto 0; text-align:left; }
+  .field{ margin-bottom:18px; }
+  .field label{ display:block; font-family:'Patrick Hand', cursive; font-size:0.85rem; color:var(--rose); margin-bottom:6px; }
+  .field input, .field textarea{
+    width:100%; padding:11px 13px; border:2px solid var(--ink-soft); background:var(--paper);
+    border-radius:10px; font-family:'Patrick Hand', cursive; font-size:0.98rem; color:var(--ink);
+  }
+  .field input:focus, .field textarea:focus{ outline:2px solid var(--mustard); outline-offset:1px; }
+  .radio-row{ display:flex; gap:10px; }
+  .radio-opt{ flex:1; border:2px solid var(--ink-soft); border-radius:10px; padding:11px; text-align:center; cursor:pointer; font-size:0.92rem; transition:all 0.2s ease; }
+  .radio-opt input{ display:none; }
+  .radio-opt.active{ background:var(--sage); color:var(--paper); border-color:var(--sage); }
+  .form-msg{ text-align:center; margin-top:14px; font-family:'Caveat', cursive; font-size:1.3rem; color:var(--sage); display:none; }
+
+  /* ---- Ucapan ---- */
+  #ucapan{ max-width:600px; padding-top:64px; }
+  .wish-list{ margin-top:24px; text-align:left; display:flex; flex-direction:column; gap:12px; max-height:400px; overflow-y:auto; padding-right:4px; }
+  .wish-card{ background:var(--paper); border:2px dashed var(--rose); border-radius:12px; padding:14px 16px; }
+  .wish-card .wname{ font-weight:600; color:var(--ink); font-size:0.98rem; font-family:'Caveat', cursive; font-size:1.2rem;}
+  .wish-card .wstatus{ font-family:'Patrick Hand', cursive; font-size:0.68rem; color:var(--sage); text-transform:uppercase; margin-left:6px;}
+  .wish-card .wtext{ font-size:0.92rem; color:var(--ink-soft); margin-top:4px; line-height:1.7; }
+  .wish-empty{ font-family:'Caveat', cursive; font-size:1.2rem; color:var(--ink-soft); margin-top:18px; }
+
+  /* ---- Penutup ---- */
+  #penutup{ padding:90px 22px 60px; }
+  #penutup p{ font-size:1rem; line-height:1.9; color:var(--ink-soft); max-width:440px; margin:0 auto; }
+  #penutup .salam{ margin-top:20px; font-family:'Amiri', serif; color:var(--ink); font-size:1.15rem; }
+  #penutup .names{ margin-top:20px; font-family:'Caveat', cursive; font-weight:700; font-size:2.2rem; color:var(--rose); }
+</style>
+</head>
+<body>
+
+<!-- ================= COVER ================= -->
+<div id="cover">
+  <div class="cover-frame"></div>
+  <div class="cover-content">
+    <svg class="doodle-heart" viewBox="0 0 24 24" width="26" height="26"><path d="M12 21 C6 15 2 11 2 7.5 C2 4 5 2 8 3.5 C10 4.5 11 6 12 8 C13 6 14 4.5 16 3.5 C19 2 22 4 22 7.5 C22 11 18 15 12 21 Z" fill="none" stroke="#C97B6E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <p class="eyebrow">The Wedding Of</p>
+    <h1>Dhifa<span class="amp">&amp;</span>Hafidz</h1>
+    <div class="cover-date">06 Desember 2026</div>
+    <p class="cover-msg">
+      Dengan memohon rahmat dan ridha Allah SWT,<br>
+      kami mengundang Bapak/Ibu/Saudara/i<br>
+      untuk hadir pada acara pernikahan kami.
+    </p>
+    <div class="guest-box">
+      <div class="to-label">Kepada Yth. Bapak/Ibu/Saudara/i</div>
+      <div class="to-name" id="guestName">Tamu Undangan</div>
+    </div>
+    <button class="btn" id="openBtn">Buka Undangan</button>
+  </div>
+</div>
+
+<!-- ================= MUSIC WIDGET ================= -->
+<div id="musicWidget" class="paused">
+  <div class="vinyl paused" id="vinylIcon"><div class="label"></div></div>
+  <div class="eq"><span></span><span></span><span></span></div>
+  <div class="info"><b>Kabar Bahagia</b>Rumahsakit</div>
+</div>
+<audio id="bgAudio" loop preload="none">
+  <source src="kabar-bahagia.mp3" type="audio/mpeg">
+</audio>
+
+<!-- ================= HERO ================= -->
+<section id="hero">
+  <p class="eyebrow reveal">Assalamu'alaikum Warahmatullahi Wabarakatuh</p>
+  <div class="hero-portraits reveal">
+    <div class="blob blob-sm"><img class="warm" src="foto/bride.jpg" alt="Dhifa"></div>
+    <div class="blob blob-sm tilt-r"><img class="warm" src="foto/groom.jpg" alt="Hafidz"></div>
+  </div>
+  <h1 class="reveal">Nadhifa Firyal &amp; Ahmad Hafidzulfikri Nizar</h1>
+  <p class="quote reveal">"Maha Suci Allah yang telah menciptakan makhluk-Nya berpasang-pasangan."</p>
+</section>
+
+<!-- ================= AYAT ================= -->
+<section id="ayat">
+  <svg class="doodle-wave reveal" viewBox="0 0 200 20" width="150" height="16"><path d="M2 10 Q 20 2, 38 10 T 74 10 T 110 10 T 146 10 T 182 10" stroke="#8CA07C" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>
+  <p class="arabic-text arabic reveal">وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً ۚ إِنَّ فِي ذَٰلِكَ لَآيَاتٍ لِّقَوْمٍ يَتَفَكَّرُونَ</p>
+  <p class="translation reveal">"Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri agar kamu cenderung dan merasa tenteram kepadanya. Dan Dia menjadikan di antaramu rasa kasih dan sayang. Sesungguhnya pada yang demikian itu benar-benar terdapat tanda-tanda bagi kaum yang berpikir."</p>
+  <p class="surah reveal">QS. Ar-Rum : 21</p>
+</section>
+
+<!-- ================= MEMPELAI ================= -->
+<section id="mempelai">
+  <p class="section-title reveal">Mempelai</p>
+  <h2 class="display reveal" style="font-size:1.7rem;">Kedua Mempelai</h2>
+  <div class="couple-grid">
+    <div class="couple-card reveal">
+      <div class="blob blob-big"><img class="warm" src="foto/bride.jpg" alt="Nadhifa Firyal"></div>
+      <h3>Nadhifa Firyal</h3>
+      <p class="nick">— Dhifa —</p>
+      <p class="parents">Putri dari<br>Bapak Yusuf dan Ibu Umi</p>
+    </div>
+    <div class="couple-card reveal">
+      <div class="blob blob-big tilt-r"><img class="warm" src="foto/groom.jpg" alt="Ahmad Hafidzulfikri Nizar"></div>
+      <h3>Ahmad Hafidzulfikri Nizar</h3>
+      <p class="nick">— Hafidz —</p>
+      <p class="parents">Putra dari<br>Bapak Nizar dan Ibu Ida</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CERITA ================= -->
+<section id="cerita">
+  <p class="section-title reveal">Cerita Kami</p>
+  <div class="timeline" style="margin-top:44px;">
+    <div class="tl-item reveal">
+      <h3>Awal Pertemuan</h3>
+      <p>Kisah kami berawal di masa perkuliahan. Dari sebuah pertemuan yang sederhana sebagai teman, tak pernah kami sangka bahwa Allah SWT sedang menuliskan awal dari perjalanan yang begitu indah.</p>
+    </div>
+    <div class="tl-item reveal">
+      <h3>Menjadi Dekat</h3>
+      <p>Kebersamaan dalam satu kepanitiaan membuat kami saling mengenal lebih dekat. Meski sempat menjalani kehidupan masing-masing tanpa saling berkabar, Allah mempertemukan kami kembali pada waktu yang tepat hingga tumbuh keyakinan untuk melangkah bersama.</p>
+    </div>
+    <div class="tl-item reveal">
+      <h3>Menuju Keseriusan</h3>
+      <p>Dengan memohon ridha Allah SWT serta restu kedua orang tua, kami memutuskan untuk mengikat hubungan ini dalam sebuah komitmen. Lamaran sederhana terlaksana pada 20 Juni 2026, dan insyaAllah pada bulan Desember 2026 kami akan menyempurnakan perjalanan ini dalam ikatan suci pernikahan.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ACARA ================= -->
+<section id="acara">
+  <p class="section-title reveal">Acara</p>
+  <h2 class="display reveal" style="font-size:1.7rem;">Rangkaian Acara</h2>
+  <div class="event-grid">
+    <div class="event-card reveal">
+      <p class="day">Ahad</p>
+      <h3>Akad Nikah</h3>
+      <p class="date">06 Desember 2026</p>
+      <p class="time">06.00 WIB</p>
+    </div>
+    <div class="event-card reveal">
+      <p class="day">Ahad</p>
+      <h3>Resepsi</h3>
+      <p class="date">06 Desember 2026</p>
+      <p class="time">08.00 WIB</p>
+      <p class="venue">Gedung Satya Wungu<br>Bumiaji, Kota Batu</p>
+      <a class="btn btn-outline" href="https://www.google.com/maps/search/?api=1&query=Gedung+Satya+Wungu+Bumiaji+Kota+Batu" target="_blank" rel="noopener">Lihat Lokasi</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= COUNTDOWN ================= -->
+<section id="countdown">
+  <p class="eyebrow reveal" style="color:var(--mustard);">Menuju Hari Bahagia</p>
+  <div class="cd-grid reveal">
+    <div class="cd-box"><div class="num" id="cd-days">00</div><div class="lbl">Hari</div></div>
+    <div class="cd-box"><div class="num" id="cd-hours">00</div><div class="lbl">Jam</div></div>
+    <div class="cd-box"><div class="num" id="cd-mins">00</div><div class="lbl">Menit</div></div>
+    <div class="cd-box"><div class="num" id="cd-secs">00</div><div class="lbl">Detik</div></div>
+  </div>
+</section>
+
+<!-- ================= GALERI ================= -->
+<section id="galeri">
+  <p class="section-title reveal">Galeri</p>
+  <h2 class="display reveal" style="font-size:1.7rem;">Galeri Foto</h2>
+  <div class="gallery-row reveal">
+    <div class="blob"><img class="warm" src="foto/family1.jpg" alt="Kenangan keluarga"></div>
+    <div class="blob"><img class="warm" src="foto/family2.jpg" alt="Kenangan keluarga"></div>
+    <div class="blob"><img class="warm" src="foto/family3.jpg" alt="Kenangan keluarga"></div>
+  </div>
+  <p class="gallery-hint">Kenangan yang akan terus bertambah.</p>
+</section>
+
+<!-- ================= AMPLOP DIGITAL ================= -->
+<section id="amplop">
+  <p class="section-title reveal">Tanda Kasih</p>
+  <h2 class="display reveal" style="font-size:1.7rem;">Amplop Digital</h2>
+  <p class="reveal" style="font-size:0.94rem; color:var(--ink-soft); margin-top:6px; max-width:400px; margin-left:auto; margin-right:auto;">Doa restu Bapak/Ibu/Saudara/i adalah hadiah yang paling berarti. Namun jika berkenan memberi tanda kasih, kami sediakan nomor rekening berikut.</p>
+  <div class="bank-card reveal">
+    <div class="bank-name">BRI</div>
+    <div class="acc-number" id="accNumber">1662 0101 9690 506</div>
+    <div class="acc-name">a.n. Nadhifa Firyal</div>
+    <button class="copy-btn" id="copyBtn">Salin Nomor Rekening</button>
+  </div>
+</section>
+
+<!-- ================= RSVP ================= -->
+<section id="rsvp">
+  <p class="section-title reveal">RSVP</p>
+  <h2 class="display reveal" style="font-size:1.7rem;">Konfirmasi Kehadiran</h2>
+  <form id="rsvpForm" class="reveal">
+    <div class="field">
+      <label for="rname">Nama</label>
+      <input type="text" id="rname" name="rname" required placeholder="Nama lengkap">
+    </div>
+    <div class="field">
+      <label for="rphone">Nomor WhatsApp (Opsional)</label>
+      <input type="tel" id="rphone" name="rphone" placeholder="08xxxxxxxxxx">
+    </div>
+    <div class="field">
+      <label>Status Kehadiran</label>
+      <div class="radio-row">
+        <label class="radio-opt active" id="optHadir"><input type="radio" name="status" value="Hadir" checked> Hadir</label>
+        <label class="radio-opt" id="optTidak"><input type="radio" name="status" value="Tidak Hadir"> Tidak Hadir</label>
+      </div>
+    </div>
+    <div class="field">
+      <label for="rmsg">Ucapan &amp; Doa</label>
+      <textarea id="rmsg" name="rmsg" rows="4" placeholder="Tuliskan ucapan dan doa terbaik Anda"></textarea>
+    </div>
+    <div style="text-align:center;">
+      <button type="submit" class="btn">Kirim</button>
+    </div>
+    <p class="form-msg" id="formMsg">Terima kasih atas konfirmasi dan doa terbaiknya.</p>
+  </form>
+</section>
+
+<!-- ================= UCAPAN ================= -->
+<section id="ucapan">
+  <p class="section-title reveal">Ucapan</p>
+  <h2 class="display reveal" style="font-size:1.7rem;">Ucapan dan Doa</h2>
+  <p class="reveal" style="font-size:0.94rem; color:var(--ink-soft); margin-top:6px;">Terima kasih atas doa dan harapan terbaik yang diberikan untuk kami.</p>
+  <div class="wish-list reveal" id="wishList">
+    <p class="wish-empty" id="wishEmpty">Belum ada ucapan. Jadilah yang pertama mengirimkan doa terbaik.</p>
+  </div>
+</section>
+
+<!-- ================= PENUTUP ================= -->
+<section id="penutup">
+  <svg class="doodle-wave reveal" viewBox="0 0 200 20" width="150" height="16"><path d="M2 10 Q 20 2, 38 10 T 74 10 T 110 10 T 146 10 T 182 10" stroke="#C97B6E" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>
+  <p class="reveal">Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan doa restu kepada kami.</p>
+  <p class="reveal" style="margin-top:18px;">Atas kehadiran dan doa restunya kami ucapkan terima kasih.</p>
+  <p class="salam arabic reveal">وَالسَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللَّهِ وَبَرَكَاتُهُ</p>
+  <p class="names reveal">Dhifa &amp; Hafidz</p>
+</section>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const guest = params.get('to');
+  if (guest) document.getElementById('guestName').textContent = decodeURIComponent(guest);
+
+  const audio = document.getElementById('bgAudio');
+  const musicWidget = document.getElementById('musicWidget');
+  const vinylIcon = document.getElementById('vinylIcon');
+
+  document.getElementById('openBtn').addEventListener('click', function () {
+    document.getElementById('cover').classList.add('opened');
+    document.body.style.overflow = 'auto';
+    audio.play().catch(()=>{});
+    musicWidget.classList.remove('paused');
+    vinylIcon.classList.remove('paused');
+    setTimeout(() => { document.getElementById('cover').style.display = 'none'; }, 1100);
+  });
+  document.body.style.overflow = 'hidden';
+
+  musicWidget.addEventListener('click', function(){
+    if (audio.paused){
+      audio.play().catch(()=>{});
+      musicWidget.classList.remove('paused');
+      vinylIcon.classList.remove('paused');
+    } else {
+      audio.pause();
+      musicWidget.classList.add('paused');
+      vinylIcon.classList.add('paused');
+    }
+  });
+
+  const target = new Date('2026-12-06T06:00:00+07:00').getTime();
+  function updateCountdown(){
+    const diff = target - new Date().getTime();
+    const els = ['cd-days','cd-hours','cd-mins','cd-secs'];
+    if (diff <= 0){ els.forEach(id => document.getElementById(id).textContent = '00'); return; }
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor((diff % 86400000) / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+    document.getElementById('cd-days').textContent = String(d).padStart(2,'0');
+    document.getElementById('cd-hours').textContent = String(h).padStart(2,'0');
+    document.getElementById('cd-mins').textContent = String(m).padStart(2,'0');
+    document.getElementById('cd-secs').textContent = String(s).padStart(2,'0');
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+  const optHadir = document.getElementById('optHadir');
+  const optTidak = document.getElementById('optTidak');
+  document.querySelectorAll('input[name="status"]').forEach(r => {
+    r.addEventListener('change', () => {
+      optHadir.classList.toggle('active', r.value === 'Hadir' && r.checked);
+      optTidak.classList.toggle('active', r.value === 'Tidak Hadir' && r.checked);
+    });
+  });
+
+  const wishList = document.getElementById('wishList');
+  document.getElementById('rsvpForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    const name = document.getElementById('rname').value.trim();
+    const status = document.querySelector('input[name="status"]:checked').value;
+    const msg = document.getElementById('rmsg').value.trim();
+    if (!name) return;
+    const emptyMsg = document.getElementById('wishEmpty');
+    if (emptyMsg) emptyMsg.remove();
+    const card = document.createElement('div');
+    card.className = 'wish-card';
+    card.innerHTML = '<span class="wname"></span><span class="wstatus"></span><p class="wtext"></p>';
+    card.querySelector('.wname').textContent = name;
+    card.querySelector('.wstatus').textContent = status;
+    card.querySelector('.wtext').textContent = msg || '—';
+    wishList.prepend(card);
+    document.getElementById('formMsg').style.display = 'block';
+    this.reset();
+    optHadir.classList.add('active');
+    optTidak.classList.remove('active');
+  });
+
+  const copyBtn = document.getElementById('copyBtn');
+  copyBtn.addEventListener('click', function(){
+    const number = document.getElementById('accNumber').textContent.replace(/\s/g, '');
+    navigator.clipboard.writeText(number).then(() => {
+      copyBtn.textContent = 'Tersalin!';
+      copyBtn.classList.add('copied');
+      setTimeout(() => {
+        copyBtn.textContent = 'Salin Nomor Rekening';
+        copyBtn.classList.remove('copied');
+      }, 2000);
+    }).catch(() => {});
+  });
+
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting){ entry.target.classList.add('in'); io.unobserve(entry.target); }
+    });
+  }, { threshold: 0.15 });
+  revealEls.forEach(el => io.observe(el));
+</script>
+</body>
+</html>
